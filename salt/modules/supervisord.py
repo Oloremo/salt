@@ -62,13 +62,6 @@ def _ctl_cmd(cmd, name, conf_file, bin_env):
     return ret
 
 
-def _get_return(ret):
-    if ret['retcode'] == 0:
-        return ret['stdout']
-    else:
-        return ''
-
-
 def start(name='all', user=None, conf_file=None, bin_env=None):
     '''
     Start the named service.
@@ -96,7 +89,7 @@ def start(name='all', user=None, conf_file=None, bin_env=None):
         runas=user,
         python_shell=False,
     )
-    return _get_return(ret)
+    return ret['stdout']
 
 
 def restart(name='all', user=None, conf_file=None, bin_env=None):
@@ -126,7 +119,7 @@ def restart(name='all', user=None, conf_file=None, bin_env=None):
         runas=user,
         python_shell=False,
     )
-    return _get_return(ret)
+    return ret['stdout']
 
 
 def stop(name='all', user=None, conf_file=None, bin_env=None):
@@ -156,7 +149,7 @@ def stop(name='all', user=None, conf_file=None, bin_env=None):
         runas=user,
         python_shell=False,
     )
-    return _get_return(ret)
+    return ret['stdout']
 
 
 def add(name, user=None, conf_file=None, bin_env=None):
@@ -186,7 +179,7 @@ def add(name, user=None, conf_file=None, bin_env=None):
         runas=user,
         python_shell=False,
     )
-    return _get_return(ret)
+    return ret['stdout']
 
 
 def remove(name, user=None, conf_file=None, bin_env=None):
@@ -216,7 +209,7 @@ def remove(name, user=None, conf_file=None, bin_env=None):
         runas=user,
         python_shell=False,
     )
-    return _get_return(ret)
+    return ret['stdout']
 
 
 def reread(user=None, conf_file=None, bin_env=None):
@@ -242,7 +235,7 @@ def reread(user=None, conf_file=None, bin_env=None):
         runas=user,
         python_shell=False,
     )
-    return _get_return(ret)
+    return ret['stdout']
 
 
 def update(user=None, conf_file=None, bin_env=None, name=None):
@@ -278,7 +271,7 @@ def update(user=None, conf_file=None, bin_env=None, name=None):
         runas=user,
         python_shell=False,
     )
-    return _get_return(ret)
+    return ret['stdout']
 
 
 def status(name=None, user=None, conf_file=None, bin_env=None):
@@ -331,8 +324,9 @@ def status_raw(name=None, user=None, conf_file=None, bin_env=None):
         _ctl_cmd('status', name, conf_file, bin_env),
         runas=user,
         python_shell=False,
+        ignore_retcode=True,
     )
-    return _get_return(ret)
+    return ret['stdout']
 
 
 def custom(command, user=None, conf_file=None, bin_env=None):
@@ -358,7 +352,7 @@ def custom(command, user=None, conf_file=None, bin_env=None):
         runas=user,
         python_shell=False,
     )
-    return _get_return(ret)
+    return ret['stdout']
 
 
 # TODO: try to find a way to use the supervisor python module to read the
